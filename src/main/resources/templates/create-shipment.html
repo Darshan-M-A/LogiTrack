@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogiTrack | Create Shipment</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" th:href="@{/}"><span class="brand-mark">L</span><span>LogiTrack<small>SHIPMENT OPERATIONS</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <a class="nav-item" th:href="@{/}"><span>▦</span> Dashboard</a>
+    <a class="nav-item active" th:href="@{/shipments/new}"><span>＋</span> Create shipment</a>
+    <div class="sidebar-bottom"><div class="help-icon">✓</div><div><strong>New shipment</strong><small>Fill in the details to book a package.</small></div></div>
+  </aside>
+  <main class="main-content narrow-content">
+    <div class="eyebrow">SHIPMENTS / NEW RECORD</div>
+    <h1>Create shipment</h1>
+    <p class="subtitle page-subtitle">Enter the sender, receiver and delivery-agent details.</p>
+    <section class="panel form-panel">
+      <div class="panel-heading"><div><h2>Shipment information</h2><p>All fields are required.</p></div></div>
+      <form th:action="@{/shipments}" th:object="${shipmentForm}" method="post" class="form-body">
+        <div class="form-grid">
+          <label>Sender name<input th:field="*{senderName}" placeholder="e.g. Rahul Sharma" required maxlength="100"><span class="field-error" th:errors="*{senderName}"></span></label>
+          <label>Sender address<input th:field="*{senderAddress}" placeholder="City, state" required maxlength="500"><span class="field-error" th:errors="*{senderAddress}"></span></label>
+          <label>Receiver name<input th:field="*{receiverName}" placeholder="e.g. Amit Verma" required maxlength="100"><span class="field-error" th:errors="*{receiverName}"></span></label>
+          <label>Receiver address<input th:field="*{receiverAddress}" placeholder="City, state" required maxlength="500"><span class="field-error" th:errors="*{receiverAddress}"></span></label>
+          <label class="full-width">Delivery agent<input th:field="*{deliveryAgent}" placeholder="Agent full name" required maxlength="100"><span class="field-error" th:errors="*{deliveryAgent}"></span></label>
+        </div>
+        <div class="form-note"><strong>What happens next?</strong><span>A unique tracking number is generated and the initial status is set to Created.</span></div>
+        <div class="form-actions"><a class="btn btn-light" th:href="@{/}">Cancel</a><button class="btn btn-primary" type="submit">Create shipment</button></div>
+      </form>
+    </section>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,946 @@
+/* 1. Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+/* 2. CSS Variables */
+:root {
+    --navy:#172b4d;
+    --blue:#315ee8;
+    --blue-dark:#2449c7;
+    --ink:#17243a;
+    --muted:#78849a;
+    --line:#e7ebf2;
+    --bg:#f6f8fc;
+    --green:#16835d;
+    --shadow:0 16px 48px rgba(26,43,77,.12)
+}
+
+/* 3. Global Styles */
+* {
+    box-sizing:border-box
+}
+
+body {
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'DM Sans',sans-serif;
+    font-size:14px
+}
+
+a {
+    color:inherit;
+    text-decoration:none
+}
+
+button,input,select,textarea {
+    font:inherit
+}
+
+/* 4. Main Application Layout */
+.app-shell {
+    min-height:100vh;
+    display:grid;
+    grid-template-columns:248px minmax(0,1fr)
+}
+
+/* 5. Sidebar and Navigation */
+.sidebar {
+    background:#fff;
+    border-right:1px solid var(--line);
+    padding:28px 18px;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+    position:sticky;
+    top:0;
+    height:100vh
+}
+
+/* 6. Branding */
+.brand {
+    display:flex;
+    align-items:center;
+    gap:11px;
+    color:var(--ink);
+    font-family:Manrope,sans-serif;
+    font-weight:800;
+    font-size:18px;
+    padding:0 9px 42px
+}
+
+.brand-mark {
+    display:grid;
+    place-items:center;
+    width:39px;
+    height:39px;
+    border-radius:12px;
+    background:var(--blue);
+    color:white;
+    font-size:22px;
+    box-shadow:0 6px 14px #315ee833;
+    flex-shrink:0
+}
+
+.brand small {
+    display:block;
+    font:700 9px 'DM Sans',sans-serif;
+    letter-spacing:1.5px;
+    color:#8b96a8;
+    margin-top:4px
+}
+
+.nav-label,.eyebrow {
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:1.45px;
+    color:#96a0b1
+}
+
+.nav-label {
+    padding:0 12px 12px
+}
+
+.nav-item {
+    display:flex;
+    align-items:center;
+    gap:13px;
+    color:#647189;
+    padding:12px 13px;
+    border-radius:10px;
+    margin-bottom:5px;
+    font-weight:600
+}
+
+.nav-item span {
+    font-size:20px;
+    width:20px;
+    text-align:center
+}
+
+.nav-item.active,.nav-item:hover {
+    background:#edf2ff;
+    color:var(--blue)
+}
+
+.sidebar-bottom {
+    margin-top:auto;
+    border:1px solid var(--line);
+    border-radius:13px;
+    padding:13px 11px;
+    display:flex;
+    gap:10px;
+    align-items:center
+}
+
+.help-icon {
+    border:1px solid #dce4f4;
+    color:var(--blue);
+    font-weight:700;
+    width:30px;
+    height:30px;
+    display:grid;
+    place-items:center;
+    border-radius:9px;
+    flex-shrink:0
+}
+
+.sidebar-bottom strong,.sidebar-bottom small {
+    display:block;
+    font-size:11px
+}
+
+.sidebar-bottom small {
+    color:var(--muted);
+    margin-top:4px;
+    font-size:10px;
+    line-height:1.4
+}
+
+/* 7. Main Content and Header */
+.main-content {
+    padding:35px clamp(20px,4vw,56px) 20px;
+    min-width:0;
+    max-width:1600px;
+    width:100%;
+    margin:0 auto
+}
+
+.topbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:18px;
+    margin-bottom:28px
+}
+
+h1,h2,p {
+    margin-top:0
+}
+
+h1,h2 {
+    font-family:Manrope,sans-serif;
+    letter-spacing:-.6px
+}
+
+h1 {
+    font-size:clamp(25px,3vw,32px);
+    margin:8px 0 7px;
+    font-weight:800
+}
+
+h2 {
+    font-size:19px;
+    margin:0 0 7px
+}
+
+.subtitle,
+/* 10. Panels, Search, and Filters */
+.panel-heading p {
+    color:var(--muted);
+    margin:0;
+    font-size:13px
+}
+
+/* 8. Buttons */
+.btn {
+    border:1px solid transparent;
+    border-radius:9px;
+    padding:11px 15px;
+    font-weight:700;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:background .15s;
+    white-space:nowrap
+}
+
+.btn-primary {
+    background:var(--blue);
+    color:#fff;
+    box-shadow:0 4px 10px #315ee829
+}
+
+.btn-primary:hover {
+    background:var(--blue-dark)
+}
+
+.btn-light {
+    background:white;
+    border-color:var(--line);
+    color:#526078
+}
+
+.btn-light:hover {
+    background:#f8faff
+}
+
+.plus {
+    font-size:18px
+}
+
+/* 9. Dashboard Statistics Cards */
+.stats-grid {
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:16px;
+    margin-bottom:24px
+}
+
+.stat-card,.panel {
+    background:white;
+    border:1px solid var(--line);
+    border-radius:14px;
+    box-shadow:0 3px 10px #24395a04
+}
+
+.stat-card {
+    padding:19px 20px
+}
+
+.stat-top {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    color:#68758b;
+    font-size:12px;
+    font-weight:600
+}
+
+.stat-icon {
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    display:grid;
+    place-items:center;
+    font-size:17px
+}
+
+.blue {
+    background:#edf2ff;
+    color:#315ee8
+}
+
+.orange {
+    background:#fff3e6;
+    color:#d77b18
+}
+
+.purple {
+    background:#f2edff;
+    color:#7854cf
+}
+
+.green {
+    background:#e7f7ef;
+    color:#16835d
+}
+
+.stat-number {
+    font-family:Manrope,sans-serif;
+    font-size:30px;
+    font-weight:800;
+    letter-spacing:-1px;
+    margin:13px 0 3px
+}
+
+.stat-foot {
+    font-size:11px;
+    color:#9aa3b2
+}
+
+.panel {
+    overflow:hidden
+}
+
+.panel-heading {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:23px 24px 18px;
+    gap:14px
+}
+
+.toolbar {
+    display:flex;
+    gap:12px;
+    padding:0 24px 18px;
+    align-items:center
+}
+
+.search-box {
+    display:flex;
+    align-items:center;
+    gap:9px;
+    border:1px solid #e1e6ef;
+    background:#fff;
+    border-radius:9px;
+    padding:0 12px;
+    flex:1;
+    max-width:530px;
+    color:#8b96a8
+}
+
+.search-box span {
+    font-size:21px
+}
+
+.search-box input {
+    border:0;
+    outline:0;
+    width:100%;
+    padding:11px 0;
+    background:transparent;
+    color:var(--ink);
+    min-width:0
+}
+
+.filter-select {
+    border:1px solid #e1e6ef;
+    background:#fff;
+    border-radius:9px;
+    padding:11px 12px;
+    color:#59677e;
+    min-width:165px;
+    outline:none
+}
+
+/* 11. Shipment Table and Status Badges */
+.table-wrap {
+    overflow-x:auto
+}
+
+table {
+    border-collapse:collapse;
+    width:100%;
+    white-space:nowrap
+}
+
+thead {
+    background:#f9faff
+}
+
+th {
+    text-align:left;
+    padding:13px 18px;
+    color:#8b96a8;
+    font-size:9px;
+    letter-spacing:1px;
+    font-weight:700
+}
+
+td {
+    padding:16px 18px;
+    border-top:1px solid #eff1f6;
+    font-size:12px;
+    color:#59677e
+}
+
+tbody tr:hover {
+    background:#fbfcff
+}
+
+.tracking-link {
+    color:var(--blue);
+    font-weight:700
+}
+
+.tracking-link:hover {
+    text-decoration:underline
+}
+
+.shipment-person {
+    font-weight:700;
+    color:#283750;
+    font-size:12px
+}
+
+.muted-line {
+    font-size:11px;
+    color:#98a1b0;
+    margin-top:4px;
+    max-width:220px;
+    overflow:hidden;
+    text-overflow:ellipsis
+}
+
+.status-pill {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 9px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:700;
+    white-space:nowrap
+}
+
+.status-pill:before {
+    content:"";
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:currentColor
+}
+
+.status-CREATED {
+    background:#f0f2f6;
+    color:#647189
+}
+
+.status-DISPATCHED {
+    background:#edf2ff;
+    color:#315ee8
+}
+
+.status-IN_TRANSIT {
+    background:#fff3e6;
+    color:#b96b0b
+}
+
+.status-OUT_FOR_DELIVERY {
+    background:#f2edff;
+    color:#7854cf
+}
+
+.status-DELIVERED {
+    background:#e7f7ef;
+    color:#16835d
+}
+
+.small-action {
+    border:1px solid var(--line);
+    background:white;
+    border-radius:7px;
+    padding:7px 9px;
+    color:#526078;
+    font-weight:600;
+    font-size:11px
+}
+
+.small-action:hover {
+    border-color:#b9c8fa;
+    color:var(--blue)
+}
+
+/* 12. Table Footer and Empty State */
+.table-footer {
+    border-top:1px solid #eff1f6;
+    padding:14px 24px;
+    display:flex;
+    justify-content:space-between;
+    color:#929bad;
+    font-size:11px;
+    gap:10px
+}
+
+.footer {
+    padding:22px 2px;
+    color:#9aa3b2;
+    font-size:11px
+}
+
+.footer span {
+    padding:0 5px
+}
+
+.empty-state {
+    text-align:center;
+    padding:36px 15px;
+    color:#98a2b2;
+    white-space:normal
+}
+
+.empty-state strong {
+    display:block;
+    color:#44516a;
+    margin-bottom:6px
+}
+
+/* 13. Shipment Forms */
+.narrow-content {
+    max-width:1000px
+}
+
+.page-subtitle {
+    margin-bottom:25px
+}
+
+.form-panel {
+    max-width:850px
+}
+
+.form-body {
+    padding:0 24px 24px
+}
+
+.form-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px
+}
+
+.form-grid label,.status-form label {
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    color:#45536b;
+    font-weight:700;
+    font-size:12px
+}
+
+.form-grid input,.status-form input,.status-form textarea {
+    border:1px solid #dfe5ee;
+    border-radius:9px;
+    padding:12px 11px;
+    outline:none;
+    color:var(--ink);
+    width:100%;
+    background:#fff
+}
+
+.form-grid input:focus,.status-form input:focus,.status-form textarea:focus {
+    border-color:#8ba4ff;
+    box-shadow:0 0 0 3px #315ee812
+}
+
+.full-width {
+    grid-column:1/-1
+}
+
+.field-error {
+    color:#c53b4a;
+    font-size:11px;
+    font-weight:500
+}
+
+.form-note {
+    margin-top:24px;
+    background:#f7f9ff;
+    border:1px solid #e8edfb;
+    border-radius:10px;
+    padding:14px;
+    display:grid;
+    gap:5px
+}
+
+.form-note strong {
+    font-size:12px
+}
+
+.form-note span {
+    font-size:12px;
+    color:#78849a
+}
+
+.form-actions {
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:24px;
+    padding-top:18px;
+    border-top:1px solid var(--line)
+}
+
+/* 14. Shipment Details */
+.back-link {
+    display:inline-block;
+    color:#647189;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:23px
+}
+
+.back-link:hover {
+    color:var(--blue)
+}
+
+.detail-topbar {
+    margin-bottom:22px
+}
+
+.large-pill {
+    font-size:11px;
+    padding:8px 12px
+}
+
+.detail-grid {
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:18px;
+    margin-bottom:22px
+}
+
+.detail-info-grid {
+    padding:5px 24px 24px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px 18px
+}
+
+.meta-label {
+    color:#929bad;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+    margin-bottom:6px
+}
+
+.meta-value {
+    font-weight:700;
+    color:#34425a;
+    font-size:12px;
+    overflow-wrap:anywhere
+}
+
+.status-card-body {
+    padding:0 24px 24px
+}
+
+.next-step-label {
+    font-size:10px;
+    letter-spacing:1px;
+    color:#929bad;
+    font-weight:700
+}
+
+.next-step {
+    font-family:Manrope,sans-serif;
+    font-size:20px;
+    font-weight:800;
+    color:var(--blue);
+    margin:6px 0 20px
+}
+
+.status-form {
+    display:grid;
+    gap:15px
+}
+
+.status-form textarea {
+    min-height:80px;
+    resize:vertical
+}
+
+.full-button {
+    width:100%
+}
+
+.delivered-message {
+    margin:0 24px 24px;
+    background:#e7f7ef;
+    border-radius:10px;
+    padding:15px;
+    color:#16835d;
+    font-weight:600;
+    font-size:12px;
+    line-height:1.6
+}
+
+/* 15. Tracking Timeline */
+.history-panel {
+    margin-bottom:18px
+}
+
+.event-count {
+    background:#f0f3fa;
+    border-radius:20px;
+    padding:6px 10px;
+    font-size:10px;
+    font-weight:700;
+    color:#647189
+}
+
+.timeline {
+    padding:5px 28px 25px 32px
+}
+
+.timeline-item {
+    position:relative;
+    padding:0 0 24px 23px;
+    border-left:1px solid #dfe5f2;
+    margin-left:6px
+}
+
+.timeline-item:last-child {
+    border-left-color:transparent;
+    padding-bottom:0
+}
+
+.timeline-dot {
+    position:absolute;
+    left:-6px;
+    top:3px;
+    width:11px;
+    height:11px;
+    border-radius:50%;
+    background:var(--blue);
+    border:2px solid white;
+    box-shadow:0 0 0 2px #dbe5ff
+}
+
+.timeline-head {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px
+}
+
+.timeline-title {
+    font-size:12px;
+    font-weight:800;
+    color:#34425a
+}
+
+.timeline-head time {
+    font-size:10px;
+    color:#9aa3b2
+}
+
+.timeline-location {
+    font-size:12px;
+    color:#315ee8;
+    font-weight:600;
+    margin-top:6px
+}
+
+.timeline-desc {
+    font-size:12px;
+    color:#68758b;
+    margin-top:4px;
+    line-height:1.5
+}
+
+/* 16. Alerts and Error Pages */
+.alert {
+    border-radius:9px;
+    padding:12px 15px;
+    margin-bottom:20px;
+    font-size:12px;
+    line-height:1.5
+}
+
+.success {
+    background:#e7f7ef;
+    border:1px solid #c8efdc;
+    color:#16835d
+}
+
+.error-page {
+    max-width:540px;
+    margin:15vh auto;
+    padding:30px;
+    text-align:center
+}
+
+.error-page .brand-mark {
+    margin:0 auto 25px
+}
+
+.error-page h1 {
+    margin:15px 0
+}
+
+.error-page .subtitle {
+    margin-bottom:25px
+}
+
+/* 17. Tablet Responsive Layout */
+@media(max-width:1100px) {
+    .stats-grid {
+        grid-template-columns:repeat(2,minmax(0,1fr))
+    }
+
+    .app-shell {
+        grid-template-columns:210px minmax(0,1fr)
+    }
+
+    .sidebar {
+        padding:24px 13px
+    }
+
+    .main-content {
+        padding:28px 22px
+    }
+
+    .detail-grid {
+        grid-template-columns:1fr
+    }
+
+}
+
+/* 18. Mobile Responsive Layout */
+@media(max-width:760px) {
+    .app-shell {
+        display:block
+    }
+
+    .sidebar {
+        position:static;
+        height:auto;
+        min-height:0;
+        padding:15px 18px;
+        border-right:0;
+        border-bottom:1px solid var(--line)
+    }
+
+    .brand {
+        padding:0 0 14px
+    }
+
+    .nav-label,.sidebar-bottom {
+        display:none
+    }
+
+    .nav-item {
+        display:inline-flex;
+        padding:9px 11px;
+        margin:0 5px 0 0
+    }
+
+    .main-content {
+        padding:24px 14px
+    }
+
+    .topbar {
+        align-items:flex-start;
+        flex-direction:column
+    }
+
+    .topbar>.btn {
+        width:100%
+    }
+
+    .stats-grid {
+        gap:10px
+    }
+
+    .stat-card {
+        padding:14px
+    }
+
+    .stat-number {
+        font-size:26px
+    }
+
+    .panel-heading {
+        padding:18px 15px
+    }
+
+    .toolbar {
+        padding:0 15px 15px;
+        flex-direction:column;
+        align-items:stretch
+    }
+
+    .search-box {
+        max-width:none
+    }
+
+    .filter-select {
+        width:100%
+    }
+
+    .table-footer {
+        padding:12px 15px;
+        flex-wrap:wrap
+    }
+
+    .form-body {
+        padding:0 15px 18px
+    }
+
+    .form-grid,.detail-info-grid {
+        grid-template-columns:1fr
+    }
+
+    .full-width {
+        grid-column:auto
+    }
+
+    .detail-info-grid {
+        padding:5px 18px 20px
+    }
+
+    .status-card-body {
+        padding:0 18px 20px
+    }
+
+    .timeline {
+        padding:5px 18px 22px
+    }
+
+    .timeline-head {
+        align-items:flex-start;
+        flex-direction:column;
+        gap:5px
+    }
+
+    .detail-topbar {
+        gap:13px
+    }
+
+    .large-pill {
+        align-self:flex-start
+    }
+
+}

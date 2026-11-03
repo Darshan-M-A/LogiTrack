@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shipment Details | LogiTrack</title>
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <a class="brand" th:href="@{/}">
+            <span class="brand-mark">L</span>
+            <span>
+                LogiTrack
+                <small>SHIPMENT MANAGEMENT</small>
+            </span>
+        </a>
+
+        <div class="nav-label">MENU</div>
+
+        <a class="nav-item" th:href="@{/}">
+            <span>▦</span> Dashboard
+        </a>
+
+        <a class="nav-item" th:href="@{/shipments/new}">
+            <span>＋</span> Create Shipment
+        </a>
+
+        <div class="sidebar-bottom">
+            <div class="help-icon">?</div>
+            <div>
+                <strong>Need help?</strong>
+                <small>Manage your shipments easily.</small>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Back button -->
+        <a class="back-link" th:href="@{/}">
+            ← Back to Dashboard
+        </a>
+
+        <!-- Page heading -->
+        <div class="topbar detail-topbar">
+
+            <div>
+                <div class="eyebrow">SHIPMENT MANAGEMENT</div>
+
+                <h1>Shipment Details</h1>
+
+                <p class="subtitle">
+                    Tracking Number:
+                    <strong th:text="${shipment.trackingNumber}"></strong>
+                </p>
+            </div>
+
+            <span class="status-pill large-pill"
+                  th:classappend="' status-' + ${shipment.status}"
+                  th:text="${shipment.status}">
+            </span>
+
+        </div>
+
+
+        <!-- Success message -->
+        <div th:if="${successMessage != null}"
+             class="alert success"
+             th:text="${successMessage}">
+        </div>
+
+
+        <!-- Shipment details and status update -->
+        <div class="detail-grid">
+
+            <!-- Shipment information -->
+            <section class="panel">
+
+                <div class="panel-heading">
+                    <div>
+                        <h2>Shipment Information</h2>
+                        <p>Sender and receiver details</p>
+                    </div>
+                </div>
+
+                <div class="detail-info-grid">
+
+                    <div>
+                        <div class="meta-label">Tracking Number</div>
+                        <div class="meta-value"
+                             th:text="${shipment.trackingNumber}">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="meta-label">Current Status</div>
+                        <div class="meta-value"
+                             th:text="${shipment.status}">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="meta-label">Sender</div>
+                        <div class="meta-value"
+                             th:text="${shipment.senderName}">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="meta-label">Receiver</div>
+                        <div class="meta-value"
+                             th:text="${shipment.receiverName}">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="meta-label">Sender Address</div>
+                        <div class="meta-value"
+                             th:text="${shipment.senderAddress}">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="meta-label">Receiver Address</div>
+                        <div class="meta-value"
+                             th:text="${shipment.receiverAddress}">
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Status update -->
+            <section class="panel">
+
+                <div class="panel-heading">
+                    <div>
+                        <h2>Update Shipment Status</h2>
+                        <p>Move the shipment to its next stage</p>
+                    </div>
+                </div>
+
+                <div class="status-card-body">
+
+                    <div th:if="${nextStatus != null}">
+
+                        <div class="next-step-label">NEXT STEP</div>
+
+                        <div class="next-step"
+                             th:text="${nextStatus}">
+                        </div>
+
+                        <form class="status-form"
+                              th:action="@{/shipments/{trackingNumber}/status(trackingNumber=${shipment.trackingNumber})}"
+                              th:object="${statusForm}"
+                              method="post">
+
+                            <!-- Submit the next allowed status -->
+                            <input type="hidden"
+                                   name="status"
+                                   th:value="${nextStatus.name()}">
+
+                            <label for="location">
+                                Current Location
+                                <input id="location"
+                                       type="text"
+                                       th:field="*{location}"
+                                       placeholder="Enter current location"
+                                       required>
+                            </label>
+
+                            <label for="description">
+                                Tracking Note
+                                <textarea id="description"
+                                          th:field="*{description}"
+                                          placeholder="Enter tracking note"
+                                          required></textarea>
+                            </label>
+
+                            <button type="submit"
+                                    class="btn btn-primary full-button">
+                                Confirm Status Update
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                    <div th:if="${nextStatus == null}"
+                         class="delivered-message">
+                        This shipment has been delivered. No further
+                        status updates are available.
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- Tracking history -->
+        <section class="panel history-panel">
+
+            <div class="panel-heading">
+
+                <div>
+                    <h2>Tracking History</h2>
+                    <p>Updates recorded for this shipment</p>
+                </div>
+
+                <span class="event-count"
+                      th:text="${#lists.size(history)} + ' events'">
+                </span>
+
+            </div>
+
+
+            <div class="timeline"
+                 th:if="${!#lists.isEmpty(history)}">
+
+                <div class="timeline-item"
+                     th:each="event : ${history}">
+
+                    <span class="timeline-dot"></span>
+
+                    <div class="timeline-head">
+
+                        <span class="timeline-title"
+                              th:text="${event.status}">
+                        </span>
+
+                    </div>
+
+                    <div class="timeline-location"
+                         th:text="${event.location}">
+                    </div>
+
+                    <div class="timeline-desc"
+                         th:text="${event.description}">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="empty-state"
+                 th:if="${#lists.isEmpty(history)}">
+
+                <strong>No tracking history yet</strong>
+
+                Tracking updates will appear here.
+
+            </div>
+
+        </section>
+
+
+        <!-- Footer -->
+        <footer class="footer">
+            LogiTrack <span>•</span> Shipment Tracking System
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>

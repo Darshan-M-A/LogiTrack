@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogiTrack | Shipment Dashboard</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" th:href="@{/}"><span class="brand-mark">L</span><span>LogiTrack<small>SHIPMENT OPERATIONS</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <a class="nav-item active" th:href="@{/}"><span>▦</span> Dashboard</a>
+    <a class="nav-item" th:href="@{/shipments/new}"><span>＋</span> Create shipment</a>
+    <div class="sidebar-bottom"><div class="help-icon">✓</div><div><strong>Simple shipment control</strong><small>Book, track and update packages in one place.</small></div></div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div><div class="eyebrow">OPERATIONS / OVERVIEW</div><h1>Shipment dashboard</h1><p class="subtitle">A clear view of every package, from booking to delivery.</p></div>
+      <a class="btn btn-primary" th:href="@{/shipments/new}"><span class="plus">＋</span> Create shipment</a>
+    </header>
+
+    <div class="alert success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
+    <section class="stats-grid">
+      <article class="stat-card"><div class="stat-top"><span>Total shipments</span><span class="stat-icon blue">▣</span></div><div class="stat-number" th:text="${totalCount}">0</div><div class="stat-foot">All recorded shipments</div></article>
+      <article class="stat-card"><div class="stat-top"><span>In transit</span><span class="stat-icon orange">↗</span></div><div class="stat-number" th:text="${transitCount}">0</div><div class="stat-foot">Dispatched or moving</div></article>
+      <article class="stat-card"><div class="stat-top"><span>Out for delivery</span><span class="stat-icon purple">⌁</span></div><div class="stat-number" th:text="${outCount}">0</div><div class="stat-foot">On the final delivery route</div></article>
+      <article class="stat-card"><div class="stat-top"><span>Delivered</span><span class="stat-icon green">✓</span></div><div class="stat-number" th:text="${deliveredCount}">0</div><div class="stat-foot">Successfully completed</div></article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading"><div><h2>All shipments</h2><p>Search, inspect and manage your shipment records.</p></div><a class="btn btn-light" th:href="@{/}">↻ Refresh</a></div>
+      <form class="toolbar" method="get" th:action="@{/}">
+        <label class="search-box"><span>⌕</span><input type="search" name="q" th:value="${q}" placeholder="Search tracking number, sender or receiver…"></label>
+        <select name="status" class="filter-select" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          <option th:each="s : ${statuses}" th:value="${s}" th:text="${#strings.replace(s.name(), '_', ' ')}" th:selected="${selectedStatus == s.name()}"></option>
+        </select>
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>TRACKING NUMBER</th><th>SHIPMENT</th><th>DESTINATION</th><th>STATUS</th><th>BOOKED ON</th><th>ACTION</th></tr></thead>
+          <tbody>
+          <tr th:each="s : ${shipments}">
+            <td><a class="tracking-link" th:href="@{/shipments/{trackingNumber}(trackingNumber=${s.trackingNumber})}" th:text="${s.trackingNumber}">LG-123</a><div class="muted-line" th:text="'Shipment ID #' + ${s.id}">Shipment ID</div></td>
+            <td><div class="shipment-person" th:text="${s.senderName}">Sender</div><div class="muted-line" th:text="'To ' + ${s.receiverName}">Receiver</div></td>
+            <td><div class="shipment-person" th:text="${s.receiverAddress}">Destination</div><div class="muted-line" th:text="'Agent: ' + ${s.deliveryAgent}">Agent</div></td>
+            <td><span class="status-pill" th:classappend="' status-' + ${s.status.name()}" th:text="${#strings.replace(s.status.name(), '_', ' ')}">CREATED</span></td>
+            <td th:text="${#temporals.format(s.createdAt, 'dd MMM yyyy, HH:mm')}">Date</td>
+            <td><a class="small-action" th:href="@{/shipments/{trackingNumber}(trackingNumber=${s.trackingNumber})}">View / update</a></td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(shipments)}"><td colspan="6"><div class="empty-state"><strong>No shipments found</strong>Try another search or create your first shipment.</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-footer"><span th:text="${shipments.size()} + ' shipment(s) shown'">0 shipments shown</span><span>Server-rendered with Spring Boot + Thymeleaf</span></div>
+    </section>
+    <footer class="footer">LogiTrack <span>·</span> Shipment operations made simpler.</footer>
+  </main>
+</div>
+</body>
+</html>
