@@ -52,6 +52,7 @@ public class ShipmentService {
     }
 
     // Create a new shipment
+ // Create a new shipment
     @Transactional
     public Shipment createShipment(CreateShipmentRequest request) {
 
@@ -69,6 +70,7 @@ public class ShipmentService {
         shipment.setSenderAddress(request.getSenderAddress());
         shipment.setReceiverName(request.getReceiverName());
         shipment.setReceiverAddress(request.getReceiverAddress());
+        shipment.setDeliveryAgent(request.getDeliveryAgent());
 
         // Initial status
         shipment.setStatus(ShipmentStatus.CREATED);

@@ -1,0 +1,45 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: logitrack-mysql
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: logistics_db
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    networks:
+      - logitrack-network
+
+  app:
+    build: .
+    container_name: logitrack-app
+    restart: unless-stopped
+
+    ports:
+      - "8001:8001"
+
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/logistics_db
+
+    depends_on:
+      - mysql
+
+    networks:
+      - logitrack-network
+
+volumes:
+  mysql_data:
+
+networks:
+  logitrack-network:
+    driver: bridge
